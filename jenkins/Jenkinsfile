@@ -51,17 +51,25 @@ pipeline {
             }
         }
 
-        stage('Update YAML + Git Push') {
-            steps {
-                sh '''
-                    sed -i "s|image:.*|image: '$ECR_REPO:$IMAGE_TAG'|" deployment/base/deployment.yaml
-                    git config user.email "rajatphoneix@gmail.com"
-                    git config user.name "rajatphoneix"
-                    git add deployment/base/deployment.yaml
-                    git commit -m "Auto update: $IMAGE_TAG"
-                    git push origin main
-                '''
-            }
-        }
+       stage('Update YAML + Git Push') {
+           steps {
+               withCredentials([usernamePassword(credentialsId: 'github-push-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
+                   sh '''
+                       sed -i "s|image:.*|image: '$ECR_REPO:$IMAGE_TAG'|" deployment/base/deployment.yaml
+
+                       git config user.email "rajatphoneix@gmail.com"
+                       git config user.name "rajatphoneix"
+
+                       # Replace remote URL to include GitHub credentials
+                       git remote set-url origin https://${GIT_USER}:${GIT_PASS}@github.com/rajatphoneix/argocd_cicd.git
+
+                       git add deployment/base/deployment.yaml
+                       git commit -m "Auto update: $IMAGE_TAG" || echo "No changes to commit"
+                       git push origin main
+                   '''
+               }
+           }
+       }
+
     }
 }
