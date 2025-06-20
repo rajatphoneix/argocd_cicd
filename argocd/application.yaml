@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: springboot-gitops
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/rajatphoneix/argocd_cicd.git
+    targetRevision: main
+    path: deployment/base
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
