@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: springboot-demo
-          image: '390844763711.dkr.ecr.ap-south-1.amazonaws.com/springboot-demo:19'
+          image: '390844763711.dkr.ecr.ap-south-1.amazonaws.com/springboot-demo:18'
           ports:
             - containerPort: 8080
           readinessProbe:
