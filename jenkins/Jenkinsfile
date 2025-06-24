@@ -5,7 +5,7 @@ pipeline {
         AWS_REGION = "ap-south-1"
         IMAGE_NAME = "springboot-demo"
         IMAGE_TAG = "${BUILD_NUMBER}"
-        ECR_REGISTRY = "390844763711.dkr.ecr.ap-south-1.amazonaws.com"
+        ECR_REGISTRY = "452829727099.dkr.ecr.ap-south-1.amazonaws.com"
         ECR_REPO = "${ECR_REGISTRY}/${IMAGE_NAME}"
     }
 
